@@ -26,7 +26,7 @@ $(document).ready(function(){
             };
 
             $('#button-container').append(`
-                <a href="#" class="btn pulse mapper" 
+                <a href="#" class="btn mapper" 
                     lat="${coordinates.lat}"
                     lon="${coordinates.lon}"
                     name="${city}">
