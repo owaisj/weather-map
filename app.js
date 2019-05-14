@@ -9,5 +9,8 @@ $(document).ready(function(){
     accessToken: 'your.mapbox.access.token'
     }).addTo(mymap);
 
+    L.marker([38.9072, -77.0369]).addTo(mymap)
+    .bindPopup('Washington DC')
+    .openPopup();
 
 });
