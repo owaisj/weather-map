@@ -16,34 +16,25 @@ $(document).ready(function(){
     //Cities
     function City(name) {
         this.name = name,
-        this.geocode = function() {
-            $.ajax({
-                url: queryURL,
-                method: 'GET'
-            }).then(function(response){
-                
-            }).catch()
-        },
-        this.display = function() {
-            console.log(`Name: ${this.name}\nCoordinate: ${this.geocode}`)
+        this.displayButton = function() {
+            $('#button-container').append(`
+                <a href="#" class="btn pulse">DC</a>
+            `)
         }
-
     }
 
-    async function getGeocode(city) {
+    function getGeocode(city) {
         let queryURL = `https://nominatim.openstreetmap.org/?format=json&city=${city}`;
         $.ajax({
             url: queryURL,
             method: 'GET'
-        }).then(await function(response){
+        }).then(function(response){
             let coordinates = {
                 lat: parseFloat(response[0].lat),
                 lon: parseFloat(response[0].lon)
             };
-            return coordinates;
+            console.log(coordinates);
         }).catch()
     }
-
-    //let DC = new City('Washington DC');
-    console.log(getGeocode('Washington DC'));
+    
 });
