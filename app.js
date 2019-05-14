@@ -15,12 +15,7 @@ $(document).ready(function(){
 
     //Cities
     function City(name) {
-        this.name = name,
-        this.displayButton = function() {
-            $('#button-container').append(`
-                <a href="#" class="btn pulse">DC</a>
-            `)
-        }
+        this.name = name
     }
 
     function getGeocode(city) {
@@ -34,7 +29,31 @@ $(document).ready(function(){
                 lon: parseFloat(response[0].lon)
             };
             console.log(coordinates);
+            $('#button-container').append(`
+                <a href="#" class="btn pulse mapper" 
+                    lat="${coordinates.lat}"
+                    lon="${coordinates.lon}"
+                    name="${city}">
+                    ${city}
+                </a>
+            `)
         }).catch()
     }
     
+
+    //Test Case
+    let ATX = new City('Austin');
+    console.log(ATX);
+    getGeocode(ATX.name);
+
+    $(document).on('click', ".mapper", function(){
+        let lat = $(this).attr('lat');
+        let lon = $(this).attr('lon');
+        let name = $(this).attr('name')
+        
+        mymap.setView([lat, lon], 13);
+        L.marker([lat,lon]).addTo(mymap)
+        .bindPopup(name)
+        .openPopup();
+    })
 });
