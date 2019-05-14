@@ -3,22 +3,18 @@ $(document).ready(function(){
     //Map
     var mymap = L.map('map').setView([38.9072, -77.0369], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: 'your.mapbox.access.token'
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
     }).addTo(mymap);
 
-    L.marker([38.9072, -77.0369]).addTo(mymap)
+    L.marker([38.9072, -77.0369])
+    .addTo(mymap)
     .bindPopup('Washington DC')
     .openPopup();
 
-    //Cities
-    function City(name) {
-        this.name = name
-    }
-
-    function getGeocode(city) {
+    function geoCodeButton(city) {
         let queryURL = `https://nominatim.openstreetmap.org/?format=json&city=${city}`;
         $.ajax({
             url: queryURL,
@@ -28,7 +24,7 @@ $(document).ready(function(){
                 lat: parseFloat(response[0].lat),
                 lon: parseFloat(response[0].lon)
             };
-            console.log(coordinates);
+
             $('#button-container').append(`
                 <a href="#" class="btn pulse mapper" 
                     lat="${coordinates.lat}"
@@ -42,10 +38,10 @@ $(document).ready(function(){
     
 
     //Test Case
-    let ATX = new City('Austin');
-    console.log(ATX);
-    getGeocode(ATX.name);
-
+    let cities = ['Austin', 'Seattle','Boston']
+    cities.forEach(function(item){
+        geoCodeButton(item);
+    })
     $(document).on('click', ".mapper", function(){
         let lat = $(this).attr('lat');
         let lon = $(this).attr('lon');
