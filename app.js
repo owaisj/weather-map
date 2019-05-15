@@ -14,6 +14,12 @@ $(document).ready(function(){
     .bindPopup('Washington DC')
     .openPopup();
 
+    //Convert Temperature
+    function kToF(temp) {
+        let value = (temp - 273.15) * 9/5 + 32
+        return value.toFixed(2);
+    }
+
     function geoCodeButton(city) {
         let queryURL = `https://nominatim.openstreetmap.org/?format=json&city=${city}`;
         $.ajax({
@@ -53,7 +59,7 @@ $(document).ready(function(){
             $('#weather-container').empty()
             .html(`
                 <h1>${response.name}</h1>
-                
+                <span>Current Temperature (in F): ${kToF(response.main.temp)}</span>
             `);
         }).catch();
     }
