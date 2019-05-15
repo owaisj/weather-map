@@ -11,9 +11,11 @@ theMarker.addTo(mymap)
 .openPopup();
 
 //TODO: App Object Method
-function kToF(temp) {
-    let value = (temp - 273.15) * 9/5 + 32
-    return value.toFixed(2);
+function tempConvert(temp) {
+    let fTemp = (temp - 273.15) * 9/5 + 32
+    let cTemp = (temp - 273.15);
+    let array = [fTemp.toFixed(2), cTemp.toFixed(2)]
+    return array;
 }
 
 //TODO: App Object Method
@@ -56,10 +58,11 @@ function displayWeather(lat, lon) {
         method: 'GET'
     }).then(function(response){
         console.log(response);
+        let temps = tempConvert(response.main.temp)
         $('#weather-container').empty()
         .html(`
             <h1>${response.name}</h1>
-            <span>Current Temperature (in F): ${kToF(response.main.temp)}</span>
+            <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span>
         `);
     }).catch();
 }
