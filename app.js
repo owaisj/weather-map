@@ -84,6 +84,7 @@ function displayWeather(lat, lon) {
     }
 })();
 
+//TODO: Place inside App Object
 let cities = ['Austin', 'Seattle','Boston', 'Vancouver']
 cities.forEach(function(item){
     geoCodeButton(item);
