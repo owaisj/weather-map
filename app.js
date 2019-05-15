@@ -3,16 +3,16 @@ $(document).ready(function(){
     //Map
     var mymap = L.map('map').setView([38.9072, -77.0369], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'your.mapbox.access.token'
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://openstreetmap.org">OpenStreetMap</a>',
+        maxZoom: 18
     }).addTo(mymap);
 
     L.marker([38.9072, -77.0369])
     .addTo(mymap)
     .bindPopup('Washington DC')
     .openPopup();
+
+    displayWeather(38.9072, -77.0369);
 
     //Convert Temperature
     function kToF(temp) {
@@ -64,8 +64,6 @@ $(document).ready(function(){
         }).catch();
     }
 
-
-    //Test Case
     let cities = ['Austin', 'Seattle','Boston', 'Vancouver']
     cities.forEach(function(item){
         geoCodeButton(item);
