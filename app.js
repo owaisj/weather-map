@@ -10,8 +10,6 @@ theMarker.addTo(mymap)
 .bindPopup('Washington DC')
 .openPopup();
 
-displayWeather(38.9072, -77.0369);
-
 //Convert Temperature
 function kToF(temp) {
     let value = (temp - 273.15) * 9/5 + 32
@@ -100,3 +98,6 @@ $(document).on('click', ".mapper", function(){
     displayWeather(lat, lon);
 })
 
+$(document).ready(function(){
+    displayWeather(38.9072, -77.0369);
+})
