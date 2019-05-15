@@ -1,4 +1,4 @@
-//Map
+//TODO: Create Initialize Map Function
 let mymap = L.map('map').setView([38.9072, -77.0369], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://openstreetmap.org">OpenStreetMap</a>',
@@ -10,7 +10,7 @@ theMarker.addTo(mymap)
 .bindPopup('Washington DC')
 .openPopup();
 
-//Convert Temperature
+//TODO: App Object Method
 function kToF(temp) {
     let value = (temp - 273.15) * 9/5 + 32
     return value.toFixed(2);
@@ -89,15 +89,13 @@ cities.forEach(function(item){
     geoCodeButton(item);
 });
 
-$(document).on('click', ".mapper", function(){
+$(document).ready(function(){
+    displayWeather(38.9072, -77.0369);
+}).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');
     let name = $(this).attr('name');
 
     updateMap(mymap, lat, lon, name);
     displayWeather(lat, lon);
-})
-
-$(document).ready(function(){
-    displayWeather(38.9072, -77.0369);
 })
