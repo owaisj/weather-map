@@ -43,6 +43,7 @@ $(document).ready(function(){
     }
     
     function updateMap(map, lat, lon, name) {
+        if (name == null) name = 'Your Location';
         map.setView([lat, lon], 13);
         L.marker([lat,lon]).addTo(map)
         .bindPopup(name)
@@ -64,6 +65,25 @@ $(document).ready(function(){
         }).catch();
     }
 
+    (function yourButton() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos){
+                let you = {
+                    lat: pos.coords.latitude,
+                    lon: pos.coords.longitude
+                }
+                $('#button-container').append(`
+                <a href="#" class="btn mapper" 
+                    lat="${you.lat}"
+                    lon="${you.lon}">
+                Your City
+                </a>`);
+            })
+        } else {
+            geoCodeButton('Washington DC');
+        }
+    })();
+
     let cities = ['Austin', 'Seattle','Boston', 'Vancouver']
     cities.forEach(function(item){
         geoCodeButton(item);
@@ -72,7 +92,7 @@ $(document).ready(function(){
     $(document).on('click', ".mapper", function(){
         let lat = $(this).attr('lat');
         let lon = $(this).attr('lon');
-        let name = $(this).attr('name')
+        let name = $(this).attr('name');
 
         updateMap(mymap, lat, lon, name);
         displayWeather(lat, lon);
