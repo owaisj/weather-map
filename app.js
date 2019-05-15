@@ -31,7 +31,7 @@ function geoCodeButton(city) {
         };
 
         $('#button-container').append(`
-            <a href="#" class="btn mapper" 
+            <a href="#" class="btn mapper light-blue darken-2" 
                 lat="${coordinates.lat}"
                 lon="${coordinates.lon}"
                 name="${city}">
@@ -77,10 +77,10 @@ function displayWeather(lat, lon) {
                 lon: pos.coords.longitude
             }
             $('#button-container').append(`
-            <a href="#" class="btn mapper" 
+            <a href="#" class="btn mapper light-blue darken-2" 
                 lat="${you.lat}"
                 lon="${you.lon}">
-            Your City
+            You!
             </a>`);
         })
     } else {
@@ -96,11 +96,12 @@ cities.forEach(function(item){
 
 $(document).ready(function(){
     displayWeather(38.9072, -77.0369);
+    document.body.style.backgroundColor = '#81d4fa';
 }).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');
     let name = $(this).attr('name');
-
+    document.body.style.backgroundColor = '#ffc107';
     updateMap(mymap, lat, lon, name);
     displayWeather(lat, lon);
 })
