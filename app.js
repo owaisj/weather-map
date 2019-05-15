@@ -38,10 +38,11 @@ $(document).ready(function(){
     
 
     //Test Case
-    let cities = ['Austin', 'Seattle','Boston']
+    let cities = ['Austin', 'Seattle','Boston', 'Vancouver']
     cities.forEach(function(item){
         geoCodeButton(item);
-    })
+    });
+
     $(document).on('click', ".mapper", function(){
         let lat = $(this).attr('lat');
         let lon = $(this).attr('lon');
