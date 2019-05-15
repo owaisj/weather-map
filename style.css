@@ -18,3 +18,8 @@
 .mapper {
     margin: 1em;
 }
+#map {
+    width: auto; 
+    height: 375px; 
+    margin: 1em;
+}
