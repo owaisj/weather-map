@@ -1,0 +1,20 @@
+/*
+    light-blue (and darken-2, lighten-4)
+    amber
+    grey darken-4, darken-1, lighten-1
+    white
+*/
+.content-wrapper {
+    height: 400px;
+}
+#button-container {
+    max-height: 400px;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.mapper {
+    margin: 1em;
+}
