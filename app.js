@@ -36,6 +36,13 @@ $(document).ready(function(){
         }).catch()
     }
     
+    function updateMap(map, lat, lon, name) {
+        map.setView([lat, lon], 13);
+        L.marker([lat,lon]).addTo(map)
+        .bindPopup(name)
+        .openPopup();
+    }
+
 
     //Test Case
     let cities = ['Austin', 'Seattle','Boston', 'Vancouver']
@@ -48,9 +55,6 @@ $(document).ready(function(){
         let lon = $(this).attr('lon');
         let name = $(this).attr('name')
         
-        mymap.setView([lat, lon], 13);
-        L.marker([lat,lon]).addTo(mymap)
-        .bindPopup(name)
-        .openPopup();
+        updateMap(mymap, lat, lon, name);
     })
 });
