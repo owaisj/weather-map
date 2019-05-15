@@ -43,6 +43,21 @@ $(document).ready(function(){
         .openPopup();
     }
 
+    function displayWeather(lat, lon) {
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ca67279e6bde699866879e8526bb828a`
+        $.ajax({
+            url: queryURL,
+            method: 'GET'
+        }).then(function(response){
+            console.log(response);
+            $('#weather-container').empty()
+            .html(`
+                <h1>${response.name}</h1>
+                
+            `);
+        }).catch();
+    }
+
 
     //Test Case
     let cities = ['Austin', 'Seattle','Boston', 'Vancouver']
@@ -54,7 +69,8 @@ $(document).ready(function(){
         let lat = $(this).attr('lat');
         let lon = $(this).attr('lon');
         let name = $(this).attr('name')
-        
+
         updateMap(mymap, lat, lon, name);
+        displayWeather(lat, lon);
     })
 });
