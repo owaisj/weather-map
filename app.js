@@ -11,9 +11,11 @@ theMarker.addTo(mymap)
 .openPopup();
 
 //TODO: App Object Method
-function kToF(temp) {
-    let value = (temp - 273.15) * 9/5 + 32
-    return value.toFixed(2);
+function tempConvert(temp) {
+    let fTemp = (temp - 273.15) * 9/5 + 32
+    let cTemp = (temp - 273.15);
+    let array = [fTemp.toFixed(2), cTemp.toFixed(2)]
+    return array;
 }
 
 //TODO: App Object Method
@@ -29,7 +31,7 @@ function geoCodeButton(city) {
         };
 
         $('#button-container').append(`
-            <a href="#" class="btn mapper" 
+            <a href="#" class="btn mapper light-blue darken-2" 
                 lat="${coordinates.lat}"
                 lon="${coordinates.lon}"
                 name="${city}">
@@ -55,11 +57,14 @@ function displayWeather(lat, lon) {
         url: queryURL,
         method: 'GET'
     }).then(function(response){
-        console.log(response);
+        //console.log(response);
+        let temps = tempConvert(response.main.temp)
         $('#weather-container').empty()
         .html(`
             <h1>${response.name}</h1>
-            <span>Current Temperature (in F): ${kToF(response.main.temp)}</span>
+            <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span><br />
+            <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span><br />
+            <div id='snippet'>Loading Wikipedia Snippet...</div>
         `);
     }).catch();
 }
@@ -73,11 +78,13 @@ function displayWeather(lat, lon) {
                 lon: pos.coords.longitude
             }
             $('#button-container').append(`
-            <a href="#" class="btn mapper" 
+            <a href="#" class="btn mapper light-blue darken-2" 
                 lat="${you.lat}"
                 lon="${you.lon}">
-            Your City
+            You!
             </a>`);
+        },function(error){
+            if (error.code == 1) return geoCodeButton('Washington DC');
         })
     } else {
         geoCodeButton('Washington DC');
@@ -90,13 +97,55 @@ cities.forEach(function(item){
     geoCodeButton(item);
 });
 
+//TODO: Place inside App Object
+function snipWiki(city) {
+    let queryURL = `https://en.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${city}`
+    $.ajax({
+        url: queryURL,
+        method: 'GET'
+    }).then(function(response){
+        let query = response.query.pages;
+        let pageId = Object.keys(response.query.pages)[0];
+        let data = query[pageId];
+        let snippet = data.extract.split('\n')[0]
+        $('#snippet').empty();
+        $('#snippet').append(`<p id='wiki-text'>${snippet}</p>`);
+    }).catch();
+}
+
+//TODO: Document Object
+function renderNav() {
+    let links = `
+        <li><a href="https://github.com/owaisj/weather-map/" target="_blank">View Code</a></li>
+        <li><a href="https://owaisj.github.io/" target="_blank">Back to Portfolio</a></li>
+        <li><a href="https://weather.com/" target="_blank">Weather.com</a></li>
+    `;
+
+    $('#navbar').append(`
+        <div class="container">
+            <span class="brand-logo">${document.title}</span>
+            <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                ${links}
+            </ul>
+        </div>
+    `);
+
+    $('.sidenav').append(links).sidenav();
+}
+
 $(document).ready(function(){
     displayWeather(38.9072, -77.0369);
+    document.body.style.backgroundColor = 'whitesmoke';
+    renderNav();
 }).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');
     let name = $(this).attr('name');
-
+    document.body.style.backgroundColor = '#81d4fa';
     updateMap(mymap, lat, lon, name);
     displayWeather(lat, lon);
+    snipWiki(name);
 })
