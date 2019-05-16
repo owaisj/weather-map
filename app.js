@@ -64,7 +64,7 @@ function displayWeather(lat, lon) {
             <h1>${response.name}</h1>
             <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span><br />
             <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span><br />
-            <p id='snippet'>Wikipedia Snippet!</p>
+            <div id='snippet'>Loading Wikipedia Snippet...</div>
         `);
     }).catch();
 }
@@ -97,6 +97,23 @@ cities.forEach(function(item){
     geoCodeButton(item);
 });
 
+//TODO: Place inside App Object
+function snipWiki(city) {
+    let queryURL = `https://en.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${city}`
+    $.ajax({
+        url: queryURL,
+        method: 'GET'
+    }).then(function(response){
+        let query = response.query.pages;
+        let pageId = Object.keys(response.query.pages)[0];
+        let data = query[pageId];
+        let snippet = data.extract.split('\n')[0]
+        $('#snippet').empty();
+        $('#snippet').append(`<p id='wiki-text'>${snippet}</p>`);
+    }).catch();
+}
+
+//TODO: Document Object
 function renderNav() {
     let links = `
         <li><a href="#">View Code</a></li>
@@ -121,13 +138,14 @@ function renderNav() {
 
 $(document).ready(function(){
     displayWeather(38.9072, -77.0369);
-    document.body.style.backgroundColor = '#81d4fa';
+    document.body.style.backgroundColor = 'whitesmoke';
     renderNav();
 }).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');
     let name = $(this).attr('name');
-    document.body.style.backgroundColor = '#ffc107';
+    document.body.style.backgroundColor = '#81d4fa';
     updateMap(mymap, lat, lon, name);
     displayWeather(lat, lon);
+    snipWiki(name);
 })
