@@ -26,3 +26,9 @@
 #weather-container {
     text-align: center;
 }
+#wiki-text {
+    height: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
