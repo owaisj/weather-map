@@ -116,9 +116,9 @@ function snipWiki(city) {
 //TODO: Document Object
 function renderNav() {
     let links = `
-        <li><a href="#">View Code</a></li>
-        <li><a href="#">Back to Portfolio</a></li>
-        <li><a href="#">Weather.com</a></li>
+        <li><a href="https://github.com/owaisj/weather-map/" target="_blank">View Code</a></li>
+        <li><a href="https://owaisj.github.io/" target="_blank">Back to Portfolio</a></li>
+        <li><a href="https://weather.com/" target="_blank">Weather.com</a></li>
     `;
 
     $('#navbar').append(`
