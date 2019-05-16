@@ -63,7 +63,8 @@ function displayWeather(lat, lon) {
         .html(`
             <h1>${response.name}</h1>
             <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span><br />
-            <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span>
+            <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span><br />
+            <p id='snippet'>Wikipedia Snippet!</p>
         `);
     }).catch();
 }
@@ -94,9 +95,32 @@ cities.forEach(function(item){
     geoCodeButton(item);
 });
 
+function renderNav() {
+    let links = `
+        <li><a href="#">View Code</a></li>
+        <li><a href="#">Back to Portfolio</a></li>
+        <li><a href="#">Weather.com</a></li>
+    `;
+
+    $('#navbar').append(`
+        <div class="container">
+            <span class="brand-logo">${document.title}</span>
+            <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                ${links}
+            </ul>
+        </div>
+    `);
+    
+    $('.sidenav').append(links).sidenav();
+}
+
 $(document).ready(function(){
     displayWeather(38.9072, -77.0369);
     document.body.style.backgroundColor = '#81d4fa';
+    renderNav();
 }).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');
