@@ -57,7 +57,7 @@ function displayWeather(lat, lon) {
         url: queryURL,
         method: 'GET'
     }).then(function(response){
-        console.log(response);
+        //console.log(response);
         let temps = tempConvert(response.main.temp)
         $('#weather-container').empty()
         .html(`
@@ -83,6 +83,8 @@ function displayWeather(lat, lon) {
                 lon="${you.lon}">
             You!
             </a>`);
+        },function(error){
+            if (error.code == 1) return geoCodeButton('Washington DC');
         })
     } else {
         geoCodeButton('Washington DC');
@@ -113,7 +115,7 @@ function renderNav() {
             </ul>
         </div>
     `);
-    
+
     $('.sidenav').append(links).sidenav();
 }
 
