@@ -52,11 +52,14 @@ function updateMap(map, lat, lon, name) {
 
 //TODO: App Object Method
 function displayWeather(lat, lon) {
-    let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ca67279e6bde699866879e8526bb828a`
-    let req = new Request (queryURL, {
-        method: 'GET'
-    })
-    fetch(req).then(function(response){
+    let request = new Request (
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ca67279e6bde699866879e8526bb828a`, 
+        {
+            method: 'GET'
+        }
+    );
+
+    fetch(request).then(function(response){
         return response.json();
     }).then(function(data){
         //console.log(response);
