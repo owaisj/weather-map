@@ -107,9 +107,19 @@ function snipWiki(city) {
         let query = response.query.pages;
         let pageId = Object.keys(response.query.pages)[0];
         let data = query[pageId];
-        let snippet = data.extract.split('\n')[0]
+        let snippet = data.extract.split('\n')[0];
+        let wikilink = '';
+        if (snippet.includes('Undefined')) {
+            snippet = 'No wikipedia data available for this city.';
+        } else {
+            wikilink = `https://en.wikipedia.org/?curid=${pageId}`;
+        }
+
         $('#snippet').empty();
-        $('#snippet').append(`<p id='wiki-text'>${snippet}</p>`);
+        $('#snippet').append(`
+            <p id='wiki-text'>${snippet}</p>
+            <span><a href='${wikilink}' target='_blank'>View full article here.</a></span>    
+        `);
     }).catch();
 }
 
