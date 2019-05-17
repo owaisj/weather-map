@@ -4,6 +4,7 @@ A single page web application to display weather information.
 - jQuery for DOM manipulation
 - LeafletJS for the maps
 - Materialize (CSS Library)
+- AJAX and Fetch to query data
 ## APIs
 - OpenWeather
 - OpenStreetMap
