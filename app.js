@@ -53,21 +53,6 @@ function updateMap(map, lat, lon, name) {
 //TODO: App Object Method
 function displayWeather(lat, lon) {
     let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ca67279e6bde699866879e8526bb828a`
-    /*$.ajax({
-        url: queryURL,
-        method: 'GET'
-    }).then(function(response){
-        //console.log(response);
-        let temps = tempConvert(response.main.temp)
-        $('#weather-container').empty()
-        .html(`
-            <h1 class='flow-text'>${response.name}</h1>
-            <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span><br />
-            <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span><br />
-            <div id='snippet'>Loading Wikipedia Snippet...</div>
-        `);
-    }).catch();*/
-
     let req = new Request (queryURL, {
         method: 'GET'
     })
