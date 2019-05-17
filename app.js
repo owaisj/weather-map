@@ -151,10 +151,11 @@ function renderNav() {
     $('.sidenav').append(links).sidenav();
 }
 
-$(document).ready(function(){
+$(document).ready(async function(){
     displayWeather(38.9072, -77.0369);
     document.body.style.backgroundColor = 'whitesmoke';
     renderNav();
+    await snipWiki('Washington DC');
 }).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');
