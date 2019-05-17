@@ -61,7 +61,7 @@ function displayWeather(lat, lon) {
         let temps = tempConvert(response.main.temp)
         $('#weather-container').empty()
         .html(`
-            <h1>${response.name}</h1>
+            <h1 class='flow-text'>${response.name}</h1>
             <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span><br />
             <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span><br />
             <div id='snippet'>Loading Wikipedia Snippet...</div>
