@@ -52,18 +52,23 @@ function updateMap(map, lat, lon, name) {
 
 //TODO: App Object Method
 function displayWeather(lat, lon) {
-    let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ca67279e6bde699866879e8526bb828a`
-    $.ajax({
-        url: queryURL,
-        method: 'GET'
-    }).then(function(response){
+    let request = new Request (
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ca67279e6bde699866879e8526bb828a`, 
+        {
+            method: 'GET'
+        }
+    );
+
+    fetch(request).then(function(response){
+        return response.json();
+    }).then(function(data){
         //console.log(response);
-        let temps = tempConvert(response.main.temp)
+        let temps = tempConvert(data.main.temp)
         $('#weather-container').empty()
         .html(`
-            <h1 class='flow-text'>${response.name}</h1>
+            <h1 class='flow-text'>${data.name}</h1>
             <span>Current Temperature: ${temps[0]}&deg;F / ${temps[1]}&deg;C</span><br />
-            <span><img src='http://openweathermap.org/img/w/${response.weather[0].icon}.png' alt='${response.weather[0].description}' /></span><br />
+            <span><img src='http://openweathermap.org/img/w/${data.weather[0].icon}.png' alt='${data.weather[0].description}' /></span><br />
             <div id='snippet'>Loading Wikipedia Snippet...</div>
         `);
     }).catch();
@@ -107,9 +112,19 @@ function snipWiki(city) {
         let query = response.query.pages;
         let pageId = Object.keys(response.query.pages)[0];
         let data = query[pageId];
-        let snippet = data.extract.split('\n')[0]
+        let snippet = data.extract.split('\n')[0];
+        let wikilink = '';
+        if (snippet.includes('Undefined')) {
+            snippet = 'No wikipedia data available for this city.';
+        } else {
+            wikilink = `https://en.wikipedia.org/?curid=${pageId}`;
+        }
+
         $('#snippet').empty();
-        $('#snippet').append(`<p id='wiki-text'>${snippet}</p>`);
+        $('#snippet').append(`
+            <p id='wiki-text'>${snippet}</p>
+            <span><a href='${wikilink}' target='_blank'>View full article here.</a></span>    
+        `);
     }).catch();
 }
 
@@ -136,10 +151,11 @@ function renderNav() {
     $('.sidenav').append(links).sidenav();
 }
 
-$(document).ready(function(){
+$(document).ready(async function(){
     displayWeather(38.9072, -77.0369);
     document.body.style.backgroundColor = 'whitesmoke';
     renderNav();
+    await snipWiki('Washington DC');
 }).on('click', ".mapper", function(){
     let lat = $(this).attr('lat');
     let lon = $(this).attr('lon');

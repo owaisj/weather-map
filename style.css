@@ -27,7 +27,7 @@
     text-align: center;
 }
 #wiki-text {
-    height: 300px;
+    height: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
